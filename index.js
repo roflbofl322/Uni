@@ -7,6 +7,13 @@ const config = require('./config.json');
 
 client.login(config.token)
 client.on('ready', () => {
+  client.user.setPresence({
+    game: { 
+        name: 'u.help',
+        type: 'WATCHING'
+    },
+    status: 'online'
+  })
   console.log(`Бот работает под ником: ${client.user.tag}!`);
 });
 
