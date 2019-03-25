@@ -10,7 +10,7 @@ module.exports.run = async (client, message, args) =>
         .setThumbnail(message.author.avatarURL)
         .setDescription("Информация о вашем игроке")
         .setColor(0xFF0000)
-        .addField("Nickname:", `${message.author.username}#${message.author.discriminator}`)
+        .addField("Ник:", `${message.author.username}#${message.author.discriminator}`)
         .addField("Дата создания аккаунта:", message.author.createdAt)
         message.channel.send(userinf);
 
@@ -20,7 +20,7 @@ module.exports.run = async (client, message, args) =>
         .setThumbnail(memberInfo.user.avatarURL)
         .setDescription("Информация о игроке")
         .setColor(0xFF0000)
-        .addField("Nickname:", `${memberInfo.user.username}#${memberInfo.user.discriminator}`)
+        .addField("Ник игрока:", `${memberInfo.user.username}#${memberInfo.user.discriminator}`)
         .addField("Дата создания аккаунта:", memberInfo.user.createdAt)
         message.channel.send(userinfoo);
   }
