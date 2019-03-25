@@ -4,7 +4,7 @@ const client = new Discord.Client();
 module.exports.run = async (client, message, args) => 
 {
     const embed = {
-        "description": "Инфомариция о боте...",
+        "description": "Информация о боте...",
         "color": 16737843,
         "author": {
             "name": "Bot info"
