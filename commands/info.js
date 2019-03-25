@@ -11,7 +11,7 @@ module.exports.run = async (client, message, args) =>
         .setDescription("Информация о вашем игроке")
         .setColor(0xFF0000)
         .addField("Ник:", `${message.author.username}#${message.author.discriminator}`)
-        .addField("Дата создания аккаунта:", message.author.createdAt)
+        .addField("Дата создания вашего аккаунта:", message.author.createdAt)
         message.channel.send(userinf);
 
   } else {
