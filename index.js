@@ -3,7 +3,7 @@ const fs = require('fs') // подключаем fs к файлу
 const client = new Discord.Client();
 client.discord = Discord;
 const config = require('./config.json');
-
+const uniguild = new Discord.WebhookClient(config.web_id, config.web_token);
 
 client.login(config.token)
 client.on('ready', () => {
@@ -59,12 +59,22 @@ client.on("guildMemberAdd", (member) => {
 });
 
 client.on("guildCreate", guild => {
-  guild.leave();
-});
+    let embed = new Discord.RichEmbed()
+      .setTitle("Новый сервер")
+      .setColor(0xff6633)
+      .setThumbnail("https://pbs.twimg.com/media/D2hMcPrUgAYY1qD.png:large")
+      .addField(guild.name, `Количетсво участников ${guild.memberCount}`);
+    uniguild.send(embed);  
+    });
   
 
 client.on("guildDelete", guild => {
-  console.log("Меня пытались пригласить")
+  let embed = new Discord.RichEmbed()
+    .setTitle("Сервер удалён")
+    .setColor(0xff6633)
+    .setThumbnail("https://pbs.twimg.com/media/D2hMcPrUgAYY1qD.png:large")
+    .addField(guild.name, `Количетсво участников ${guild.memberCount}`);
+  uniguild.send(embed);  
 });
 
 client.on("error", (e) => console.error(e));
