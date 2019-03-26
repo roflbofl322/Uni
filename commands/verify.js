@@ -5,7 +5,7 @@ const config = require('../config.json');
 module.exports.run = async (client, message, args) => 
 {   
     var check;
-    if(message.author.id !== config.ownerID)
+    if(config.ownerID.indexOf(message.author.id) == -1)
     {
         check = "Не является разработчиком"
     }

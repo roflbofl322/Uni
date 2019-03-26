@@ -4,7 +4,7 @@ const config = require('../config.json');
 
 module.exports.run = async (client, message, args) => 
 {   
-    if(message.author.id !== config.ownerID) return;
+    if(config.ownerID.indexOf(message.author.id) == -1) return;
     const embed = {
         "description": "Информация для разработчиков...",
         "color": 16737843,
