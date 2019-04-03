@@ -4,6 +4,26 @@ const client = new Discord.Client();
 client.discord = Discord;
 const config = require('./config.json');
 const uniguild = new Discord.WebhookClient(config.web_id, config.web_token);
+//mysql
+var mysql = require('mysql');
+
+var con = mysql.createConnection({
+  host: config.myslq_host,
+  user: config.myslq_user,
+  password: config.myslq_password,
+  database: config.myslq_database,
+  insecureAuth : true
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+  var sql = "INSERT INTO players (name, address) VALUES ('532196405612380171', '1')";
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Table created");
+  });
+});
 
 client.login(config.token)
 client.on('ready', () => {
