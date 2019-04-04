@@ -1,0 +1,14 @@
+{
+    "token": "token",
+    "prefix": "u.",
+    "ownerID": [
+        "id_1",
+        "id_2"
+    ],
+    "web_id": "webhook_id",
+    "web_token": "webhook_token",
+    "myslq_host": "host",
+    "myslq_user": "user",
+    "myslq_password": "password",
+    "myslq_database": "database"
+}
