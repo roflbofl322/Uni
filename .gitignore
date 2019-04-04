@@ -2,3 +2,4 @@
 config.json
 site
 node_modules
+.vscode
