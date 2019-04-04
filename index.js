@@ -18,11 +18,6 @@ var con = mysql.createConnection({
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
-  var sql = "INSERT INTO players (name, address) VALUES ('532196405612380171', '1')";
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log("Table created");
-  });
 });
 
 client.login(config.token)
@@ -64,7 +59,24 @@ fs.readdir("./events/", (err, files) => {
 });
 
 client.on('message', async message => {
-    if(message.author.bot) return;
+  if(message.author.bot) return;
+  if(message.channel.type === "dm") return;
+
+  con.query(`SELECT * FROM users WHERE userid = '${message.guild.id}'`, function (err, rows) {
+      if(err) throw err;
+
+      var sql;
+
+      if(rows.length < 1) {
+        var sql = (`INSERT INTO users (userid, name) VALUES ('${message.author.id}', '${message.author.username}')`);
+        message.author.send(`${message.author.username}, я внёс твои данные в базу нашего бота, теперь у тебя есть доступ к игре!`)
+      };
+
+      con.query(sql, console.log);
+      if (err) throw err;
+      console.log("1 record inserted");
+    });
+
     let prefix = config.prefix
     if(!message.content.startsWith(prefix)) return;
     let messageArray = message.content.split(' ') // разделение пробелами
