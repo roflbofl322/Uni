@@ -87,6 +87,18 @@ client.on('message', async message => {
 })
 
 client.on("guildMemberAdd", (member) => {
+  con.query(`SELECT * FROM users WHERE userid = '${member.id}'`, function (err, rows) {
+    if(err) throw err;
+
+    var sql;
+    if(rows.length < 1) {
+      var sql = (`INSERT INTO users (userid, name) VALUES ('${member.id}', '${member.username}')`);
+      con.query(sql, console.log);
+      console.log(`Новый аккаунт: ${member.tag}`);
+    };
+
+    if (err) throw err;
+  });
 });
 
 client.on("guildCreate", guild => {
