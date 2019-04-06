@@ -4,9 +4,11 @@ var mysql = require('mysql');
 
 module.exports.run = async (client, message, args) => 
 {
-  con.query(`SELECT name FROM users WHERE userid = '${message.author.id}'`, function (err, rows) {
+  con.query(`SELECT name, level FROM users WHERE userid = '${message.author.id}'`, function (err, rows) {
     if (err) throw err;
-    console.log(rows[0]);
+    console.log(rows);
+    let nick = rows[0].name;
+    let lvl = rows[0].level;
     let memberInfo = message.mentions.members.first();
     if(!memberInfo) {
       var userinf = new Discord.RichEmbed()
@@ -14,7 +16,8 @@ module.exports.run = async (client, message, args) =>
           .setThumbnail(message.author.avatarURL)
           .setDescription("Информация о вашем игроке")
           .setColor(0xff6633)
-          .addField("Игровой ник:", `${rows[0]}`)
+          .addField("Игровой ник:", nick)
+          .addField("Уровень:", lvl)
           .addField("Дата создания вашего аккаунта:", message.author.createdAt)
           message.channel.send(userinf);
 
