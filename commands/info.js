@@ -7,6 +7,9 @@ module.exports.run = async (client, message, args) =>
     let memberInfo = message.mentions.members.first();
     if(!memberInfo) {
       con.query(`SELECT name, level FROM users WHERE userid = '${message.author.id}'`, function (err, rows) {
+        if(rows.length < 1) {
+          return message.reply("Вы были зарегистрированы в базе данных, напишите команду ещё раз.")  
+        };
         if (err) throw err;
         console.log(rows);
         let nick = rows[0].name;
