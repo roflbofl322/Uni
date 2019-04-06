@@ -12,6 +12,7 @@ var con = mysql.createConnection({
   user: config.myslq_user,
   password: config.myslq_password,
   database: config.myslq_database,
+  charset : 'utf8mb4',
   insecureAuth : true
 });
 
