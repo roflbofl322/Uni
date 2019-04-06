@@ -7,7 +7,7 @@ const uniguild = new Discord.WebhookClient(config.web_id, config.web_token);
 //mysql
 var mysql = require('mysql');
 
-var con = mysql.createConnection({
+con = mysql.createConnection({
   host: config.myslq_host,
   user: config.myslq_user,
   password: config.myslq_password,
