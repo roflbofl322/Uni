@@ -18,7 +18,7 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  console.log("Connected!");
+  console.log("Connected to database!");
 });
 
 client.login(config.token)
@@ -63,19 +63,17 @@ client.on('message', async message => {
   if(message.author.bot) return;
   if(message.channel.type === "dm") return;
 
-  con.query(`SELECT * FROM users WHERE userid = '${message.guild.id}'`, function (err, rows) {
+  con.query(`SELECT * FROM users WHERE userid = '${message.author.id}'`, function (err, rows) {
       if(err) throw err;
 
       var sql;
-
       if(rows.length < 1) {
         var sql = (`INSERT INTO users (userid, name) VALUES ('${message.author.id}', '${message.author.username}')`);
-        message.author.send(`${message.author.username}, я внёс твои данные в базу нашего бота, теперь у тебя есть доступ к игре!`)
+        con.query(sql, console.log);
+        console.log(`Новый аккаунт: ${message.author.tag}`);
       };
 
-      con.query(sql, console.log);
       if (err) throw err;
-      console.log("1 record inserted");
     });
 
     let prefix = config.prefix
@@ -98,6 +96,20 @@ client.on("guildCreate", guild => {
       .setThumbnail("https://pbs.twimg.com/media/D2hMcPrUgAYY1qD.png:large")
       .addField(guild.name, `Количетсво участников ${guild.memberCount}`);
     uniguild.send(embed);  
+
+    con.query(`SELECT * FROM guild WHERE guild_id = '${guild.id}'`, function (err, rows) {
+      if(err) throw err;
+
+      var sql;
+      if(rows.length < 1) {
+        var sql = (`INSERT INTO guild (guild_id, guild_name) VALUES ('${guild.id}', '${guild.name}')`);
+        con.query(sql, console.log);
+        console.log(`Новый сервер: ${guild.name}`);
+      };
+
+      if (err) throw err;
+    });
+
     });
   
 
@@ -107,7 +119,11 @@ client.on("guildDelete", guild => {
     .setColor(0xff6633)
     .setThumbnail("https://pbs.twimg.com/media/D2hMcPrUgAYY1qD.png:large")
     .addField(guild.name, `Количетсво участников ${guild.memberCount}`);
-  uniguild.send(embed);  
+  uniguild.send(embed);
+
+  con.query(`DELETE FROM guild WHERE guild_id = '${guild.id}'`, function (err, rows) {
+    if(err) throw err;
+  }); 
 });
 
 client.on("error", (e) => console.error(e));
