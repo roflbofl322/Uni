@@ -8,6 +8,7 @@ module.exports.run = async (client, message, args) => {
     }
     con.query(`UPDATE users SET name = '${args.join(" ")}'  WHERE userid = '${message.author.id}'`, function (err, rows) {
         console.log(`Пользователь ${message.author.tag}, сменинил свой ник на ${args.join(" ")}.`);
+        message.reply("Вы успешно сменили свой ник")
     });
 }
 
