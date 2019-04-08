@@ -108,55 +108,6 @@ client.on('message', async message => {
     if (command_file) command_file.run(client, message, args)
 })
 
-client.on("guildMemberAdd", (member) => {
-  con.query(`SELECT * FROM users WHERE userid = '${member.id}'`, function (err, rows) {
-    if(err) throw err;
-
-    if(rows.length < 1) {
-      var sql = (`INSERT INTO users (userid, name) VALUES ('${member.id}', '${member.username}')`);
-      con.query(sql, console.log);
-      console.log(`Новый аккаунт: ${member.tag}`);
-    };
-
-    if (err) throw err;
-  });
-});
-
-client.on("guildCreate", guild => {
-    let embed = new Discord.RichEmbed()
-      .setTitle("Новый сервер")
-      .setColor(0xff6633)
-      .setThumbnail("https://pbs.twimg.com/media/D2hMcPrUgAYY1qD.png:large")
-      .addField(guild.name, `Количетсво участников ${guild.memberCount}`);
-    uniguild.send(embed);  
-
-    con.query(`SELECT * FROM guild WHERE guild_id = '${guild.id}'`, function (err, rows) {
-      if(err) throw err;
-
-      var sql;
-      if(rows.length < 1) {
-        var sql = (`INSERT INTO guild (guild_id, guild_name) VALUES ('${guild.id}', '${guild.name}')`);
-        con.query(sql, console.log);
-        console.log(`Новый сервер: ${guild.name}`);
-      };
-
-      if (err) throw err;
-    });
-    });
-
-client.on("guildDelete", guild => {
-  let embed = new Discord.RichEmbed()
-    .setTitle("Сервер удалён")
-    .setColor(0xff6633)
-    .setThumbnail("https://pbs.twimg.com/media/D2hMcPrUgAYY1qD.png:large")
-    .addField(guild.name, `Количетсво участников ${guild.memberCount}`);
-  uniguild.send(embed);
-
-  con.query(`DELETE FROM guild WHERE guild_id = '${guild.id}'`, function (err, rows) {
-    if(err) throw err;
-  }); 
-});
-
 client.on("error", (e) => console.error(e));
 client.on("warn", (e) => console.warn(e));
 client.on("debug", (e) => console.info(e));
