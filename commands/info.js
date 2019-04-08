@@ -41,7 +41,7 @@ module.exports.run = async (client, message, args) =>
         //ctx.strokeRect(0, 0, canvas.width, canvas.height);
       
         //ник
-        ctx.font = applyText(canvas, `${message.author.username}`);
+        ctx.font = '70px Arial';
         ctx.fillStyle = '#ffffff';
         ctx.fillText(`${nick}`, canvas.width / 10.0, canvas.height / 2.25);
 
@@ -133,7 +133,7 @@ module.exports.run = async (client, message, args) =>
         //ctx.strokeRect(0, 0, canvas.width, canvas.height);
       
         //ник
-        ctx.font = '70px sans-serif';
+        ctx.font = '70px Arial';
         ctx.fillStyle = '#ffffff';
         ctx.fillText(`${nick}`, canvas.width / 10.2, canvas.height / 2.25);
 
