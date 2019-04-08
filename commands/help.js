@@ -14,8 +14,20 @@ module.exports.run = async (client, message, args) =>
         },
         "fields": [
             {
-            "name": "u.info (@user)",
-            "value": "Получить информацию о вашем аккаунте или аккаунте пользователя"
+                "name": "u.info (@user)",
+                "value": "Получить информацию о вашем аккаунте или аккаунте пользователя"
+            },
+            {
+                "name": "u.rename (ник)",
+                "value": "Сменить ник"
+            },
+            {
+                "name": "u.descriptiom (Описание)",
+                "value": "Добавить описание в профиль"       
+            },
+            {
+                "name": "u.top-(level, money)",
+                "value": "Топ 10 пользователей"       
             }
         ]
         };

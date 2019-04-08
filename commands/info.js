@@ -16,7 +16,7 @@ const applyText = (canvas, text) => {
 module.exports.run = async (client, message, args) => 
 {
     let memberInfo = message.author;
-    if(message.mentions.members.first()) memberInfo = message.mentions.members.first();
+    if(message.mentions.users.first()) memberInfo = message.mentions.users.first();
     con.query(`SELECT name, level, xp, money, description FROM users WHERE userid = '${memberInfo.id}'`, async function (err, rows) {
       if(rows.length < 1) {
         return message.reply("Вы были зарегистрированы в базе данных, напишите команду ещё раз.")  
