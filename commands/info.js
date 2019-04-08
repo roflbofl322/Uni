@@ -104,7 +104,7 @@ module.exports.run = async (client, message, args) =>
       ctx.closePath();
       ctx.clip();
     
-      const { body: buffer } = await snekfetch.get(memberInfo.user.displayAvatarURL);
+      const { body: buffer } = await snekfetch.get(memberInfo.displayAvatarURL);
       const avatar = await Canvas.loadImage(buffer);
       ctx.drawImage(avatar, 270, 70, 300, 300);
     
