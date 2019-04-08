@@ -142,9 +142,7 @@ client.on("guildCreate", guild => {
 
       if (err) throw err;
     });
-
     });
-  
 
 client.on("guildDelete", guild => {
   let embed = new Discord.RichEmbed()
