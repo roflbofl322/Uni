@@ -22,8 +22,12 @@ module.exports.run = async (client, message, args) =>
                 "value": "Сменить ник"
             },
             {
-                "name": "u.descriptiom (Описание)",
+                "name": "u.desc (Описание)",
                 "value": "Добавить описание в профиль"       
+            },
+            {
+                "name": "u.daily",
+                "value": "Получить ежедневную награду"       
             },
             {
                 "name": "u.top-(level, money)",
