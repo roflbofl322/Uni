@@ -30,6 +30,10 @@ module.exports.run = async (client, message, args) =>
                 "value": "Получить ежедневную награду"       
             },
             {
+                "name": "u.hype (balance, bravery, brilliance)",
+                "value": "Выбрать сторону для вашего игрока"       
+            },
+            {
                 "name": "u.top-(level, money)",
                 "value": "Топ 10 пользователей"       
             }
