@@ -2,22 +2,33 @@ const Discord = module.require('discord.js');
 var mysql = require('mysql');
 
 module.exports.run = async (client, message, args) => {
+    if(!args.join(" ")){
+      return message.channel.send(":x: " + "| Введите название гильдии в которую вы хотите вступить")
+    }
+
     con.query(`SELECT hype FROM users WHERE userid = '${message.author.id}'`, function (err, rows) {
-        let hype = rows[0].hype;
-        switch (hype) {
-            case "1":
-            message.reply( 'Bravery' );
+        switch (args.join(" ")) {
+            case "Bravery" || "bravery":
+            con.query(`UPDATE users SET hype = 1 WHERE userid = '${message.author.id}'`, function (err, rows) {
+              console.log(`Пользователь ${message.author.tag}, установил hype статус: ${args.join(" ")}.`);
+              message.reply("Вы успешно вступили в Bravery")
+            });
               break;
-            case "2":
-            message.reply( 'Brilliance!' );
+            case "Brilliance" || "brilliance":
+            con.query(`UPDATE users SET hype = 2 WHERE userid = '${message.author.id}'`, function (err, rows) {
+              console.log(`Пользователь ${message.author.tag}, установил hype статус: ${args.join(" ")}.`);
+              message.reply("Вы успешно вступили в Brilliance")
+            });
               break;
-            case "3":
-            message.reply( 'Balance' );
+            case "Balance" || "balance":
+            con.query(`UPDATE users SET hype = 3 WHERE userid = '${message.author.id}'`, function (err, rows) {
+              console.log(`Пользователь ${message.author.tag}, установил hype статус: ${args.join(" ")}.`);
+              message.reply("Вы успешно вступили в Balance")
+            });
               break;
             default:
-              message.reply( 'Вы не состоите в гильдии' );
+              message.reply("Такой гильдии не существует");
         }
-        console.log(hype)
     });
 }
 

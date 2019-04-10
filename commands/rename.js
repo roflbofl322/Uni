@@ -1,5 +1,4 @@
 const Discord = module.require('discord.js');
-const client = new Discord.Client();
 var mysql = require('mysql');
 
 module.exports.run = async (client, message, args) => {

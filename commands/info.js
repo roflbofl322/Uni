@@ -21,7 +21,7 @@ module.exports.run = async (client, message, args) =>
     } else {
       let memberInfo = message.author;
       if(message.mentions.users.first()) memberInfo = message.mentions.users.first();
-      con.query(`SELECT name, level, xp, money, description FROM users WHERE userid = '${memberInfo.id}'`, async function (err, rows) {
+      con.query(`SELECT name, level, xp, money, description, hype FROM users WHERE userid = '${memberInfo.id}'`, async function (err, rows) {
         if(rows.length < 1) {
           return message.reply("Вы были зарегистрированы в базе данных, напишите команду ещё раз.")  
         };
@@ -40,9 +40,32 @@ module.exports.run = async (client, message, args) =>
         const background = await Canvas.loadImage('./wallpaper.png');
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
       
-        //ctx.strokeStyle = '#74037b';
-        //ctx.strokeRect(0, 0, canvas.width, canvas.height);
-      
+        //hype
+        let hype = rows[0].hype;
+        let balance = await Canvas.loadImage('./profile/balance.png');
+        let bravery = await Canvas.loadImage('./profile/bravery.png');
+        let briliance = await Canvas.loadImage('./profile/briliance.png');
+        switch (hype) {
+            case "1":
+                ctx.drawImage(bravery, 860, 80, 170, 170);
+                ctx.font = '150px sans-serif';
+                ctx.fillStyle = '#9C84EF';
+                ctx.fillText("Bravery", 1100, 200);
+              break;
+            case "2":
+                ctx.drawImage(briliance, 860, 80, 170, 170);
+                ctx.font = '150px sans-serif';
+                ctx.fillStyle = '#F47B67';
+                ctx.fillText("Briliance", 1100, 210);
+              break;
+            case "3":
+                ctx.drawImage(balance, 860, 80, 170, 170);
+                ctx.font = '150px sans-serif';
+                ctx.fillStyle = '#45DDC0';
+                ctx.fillText("Balance", 1100, 210);
+              break;
+        }
+
         //ник
         ctx.font = '70px Arial';
         ctx.fillStyle = '#ffffff';
@@ -67,11 +90,6 @@ module.exports.run = async (client, message, args) =>
         ctx.font = '70px sans-serif';
         ctx.fillStyle = '#f17556';
         ctx.fillText('0', canvas.width / 1.4, canvas.height / 1.87);
-
-        //Description
-        //ctx.font = '50px sans-serif';
-        //ctx.fillStyle = '#f17556';
-        //ctx.fillText(`${description}`, canvas.width / 2.3, canvas.height / 1.4);
         
         function wrapText(ctx, text, marginLeft, marginTop, maxWidth, lineHeight)
         {
