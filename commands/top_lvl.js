@@ -3,7 +3,7 @@ const client = new Discord.Client();
 var mysql = require('mysql');
 
 module.exports.run = async (client, message, args) => {
-    con.query(`SELECT userid, money, level FROM users ORDER BY level DESC LIMIT 5`, (err, res) => {
+    con.query(`SELECT userid, money, level FROM users ORDER BY level DESC LIMIT 10`, (err, res) => {
         var embed = new Discord.RichEmbed()
             .setAuthor(`Uni`, message.guild.iconURL)
             .setColor(0xff6633)
