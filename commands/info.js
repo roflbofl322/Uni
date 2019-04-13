@@ -65,11 +65,17 @@ module.exports.run = async (client, message, args) =>
                 ctx.fillText("Balance", 1100, 210);
               break;
         }
-
+        
         //ник
         ctx.font = '70px Arial';
         ctx.fillStyle = '#ffffff';
-        ctx.fillText(`${nick}`, canvas.width / 10.0, canvas.height / 2.25);
+        if(nick.length > 13) {
+          let nick_l = nick.substr(0, 13) + "...";
+          ctx.fillText(`${nick_l}`, canvas.width / 10.0, canvas.height / 2.25);
+        }
+        else {
+          ctx.fillText(`${nick}`, canvas.width / 10.0, canvas.height / 2.25); 
+        }
 
         //level
         ctx.font = '220px sans-serif';
