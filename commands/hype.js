@@ -8,19 +8,19 @@ module.exports.run = async (client, message, args) => {
 
     con.query(`SELECT hype FROM users WHERE userid = '${message.author.id}'`, function (err, rows) {
         switch (args.join(" ")) {
-            case "Bravery" || "bravery":
+            case "Bravery":
             con.query(`UPDATE users SET hype = 1 WHERE userid = '${message.author.id}'`, function (err, rows) {
               console.log(`Пользователь ${message.author.tag}, установил hype статус: ${args.join(" ")}.`);
               message.reply("Вы успешно вступили в Bravery")
             });
               break;
-            case "Brilliance" || "brilliance":
+            case "Brilliance":
             con.query(`UPDATE users SET hype = 2 WHERE userid = '${message.author.id}'`, function (err, rows) {
               console.log(`Пользователь ${message.author.tag}, установил hype статус: ${args.join(" ")}.`);
               message.reply("Вы успешно вступили в Brilliance")
             });
               break;
-            case "Balance" || "balance":
+            case "Balance":
             con.query(`UPDATE users SET hype = 3 WHERE userid = '${message.author.id}'`, function (err, rows) {
               console.log(`Пользователь ${message.author.tag}, установил hype статус: ${args.join(" ")}.`);
               message.reply("Вы успешно вступили в Balance")
