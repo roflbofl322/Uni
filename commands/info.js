@@ -2,6 +2,7 @@ const Discord = module.require('discord.js');
 var mysql = require('mysql');
 const Canvas = require('canvas');
 const snekfetch = require('snekfetch');
+
 const talkedRecently = new Set();
 const applyText = (canvas, text) => {
 	const ctx = canvas.getContext('2d');
@@ -65,7 +66,7 @@ module.exports.run = async (client, message, args) =>
                 ctx.fillText("Balance", 1100, 210);
               break;
         }
-        
+
         //ник
         ctx.font = '70px Arial';
         ctx.fillStyle = '#ffffff';

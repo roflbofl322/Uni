@@ -6,9 +6,9 @@ module.exports = (client, member) => {
         if(err) throw err;
     
         if(rows.length < 1) {
-          var sql = (`INSERT INTO users (userid, name) VALUES ('${member.id}', '${member.username}')`);
+          var sql = (`INSERT INTO users (userid, name) VALUES ('${member.id}', '${member.user.username}')`);
           con.query(sql, console.log);
-          console.log(`Новый аккаунт: ${member.tag}`);
+          console.log(`Новый аккаунт: ${member.user.tag} (member.add)`);
         };
     
         if (err) throw err;
