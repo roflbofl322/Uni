@@ -34,13 +34,24 @@ module.exports.run = async (client, message, args) =>
         let xp = rows[0].xp;
         let money = rows[0].money;
         let description = rows[0].description;
+        let progress = (xp / (1000+100*lvl))*100;
+        console.log(progress);
 
         const canvas = Canvas.createCanvas(1920, 1200);
         const ctx = canvas.getContext('2d');
       
+        ctx.save();
         const background = await Canvas.loadImage('./wallpaper.png');
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-      
+
+        ctx.beginPath();
+        ctx.rect(150, 1100, progress*6, 90);
+        ctx.closePath();
+        ctx.globalCompositeOperation = 'source-atop'
+        ctx.fillStyle = '#f17556';
+        ctx.fill();
+        ctx.restore();
+
         //hype
         let hype = rows[0].hype;
         let balance = await Canvas.loadImage('./profile/balance.png');
@@ -65,6 +76,12 @@ module.exports.run = async (client, message, args) =>
                 ctx.fillStyle = '#45DDC0';
                 ctx.fillText("Balance", 1100, 210);
               break;
+        }
+        //значки
+        if(lvl > 0) {
+          let badge = await Canvas.loadImage('./profile/badge/lvl/1.png');
+          ctx.drawImage(badge, 200, 600, 160, 160);
+          // ctx.drawImage(badge, 400, 600, 170, 170);
         }
 
         //ник
@@ -130,17 +147,17 @@ module.exports.run = async (client, message, args) =>
 
         ctx.save();
         ctx.beginPath();
-        ctx.arc(420, 230, 140, 0, Math.PI * 2, true);
+        ctx.arc(460, 230, 140, 0, Math.PI * 2, true);
         ctx.closePath(); 
         ctx.clip();
       
         const { body: buffer } = await snekfetch.get(memberInfo.displayAvatarURL);
         const avatar = await Canvas.loadImage(buffer);
-        ctx.drawImage(avatar, 270, 70, 300, 300);
+        ctx.drawImage(avatar, 320, 70, 300, 300);
 
         ctx.restore();
         ctx.beginPath();
-        ctx.arc(495, 356, 35, 0, Math.PI*2, false);
+        ctx.arc(550, 330, 35, 0, Math.PI*2, false);
         ctx.closePath();
         ctx.strokeStyle = "white";
         let stat = memberInfo.presence.status;
@@ -158,6 +175,7 @@ module.exports.run = async (client, message, args) =>
             ctx.fillStyle = "#484d48";
         }
         ctx.fill();
+        ctx.lineWidth = 10; //толщина 5px
         ctx.stroke();
 
         const attachment = new Discord.Attachment(canvas.toBuffer(), 'profile.png');
