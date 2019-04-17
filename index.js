@@ -3,10 +3,17 @@ const fs = require('fs') // подключаем fs к файлу
 const snekfetch = require('snekfetch');
 const client = new Discord.Client();
 client.discord = Discord;
-const config = require('./config.json');
-const uniguild = new Discord.WebhookClient(config.web_id, config.web_token);
+config = require('./config.json');
+uniguild = new Discord.WebhookClient(config.web_id, config.web_token);
+
+const http = require('http');
+const url = require('url');
+const fetch = require('node-fetch');
+const FormData = require('form-data');
+const port = 5500;
+
 //mysql
-var mysql = require('mysql');
+mysql = require('mysql');
 
 con = mysql.createConnection({
   host: config.myslq_host,
@@ -62,7 +69,7 @@ fs.readdir("./events/", (err, files) => {
 
 client.on('message', async message => {
   if(message.author.bot) return;
-  if(message.channel.type === "dm") return;
+  if(message.channel.type === "dm") return message.reply("Извините, но я не отвечаю на личные сообщения `^-^`");
 
   // sql reg
   con.query(`SELECT * FROM users WHERE userid = '${message.author.id}'`, function (err, rows) {
@@ -72,6 +79,8 @@ client.on('message', async message => {
       if(rows.length < 1) {
         var sql = (`INSERT INTO users (userid, name) VALUES ('${message.author.id}', '${message.author.username}')`);
         con.query(sql, console.log);
+        var setting = (`INSERT INTO setting (userid, name) VALUES ('${message.author.id}', '${message.author.username}')`);
+        con.query(setting, console.log);
         console.log(`Новый аккаунт: ${message.author.tag}`);
         return message.author.send("Вы получили доступ к игре, поздравляем `^-^`");
       };
@@ -107,6 +116,48 @@ client.on('message', async message => {
     let command_file = client.commands.get(command.slice(prefix.length)) // получение команды из коллекции
     if (command_file) command_file.run(client, message, args)
 })
+
+//Site
+
+http.createServer((req, res) => {
+	let responseCode = 404;
+	let content = '404 Error';
+
+	const urlObj = url.parse(req.url, true);
+
+	if (urlObj.query.code) {
+		const accessCode = urlObj.query.code;
+		const data = new FormData();
+
+		data.append('client_id', '559409971083870223');
+		data.append('client_secret', 'your client secret');
+		data.append('grant_type', 'authorization_code');
+		data.append('redirect_uri', 'http://localhost:5500');
+		data.append('scope', 'the scopes');
+		data.append('code', accessCode);
+
+		fetch('https://discordapp.com/api/oauth2/token', {
+			method: 'POST',
+			body: data,
+		})
+			.then(discordRes => discordRes.json())
+			.then(console.log);
+	}
+
+	if (urlObj.pathname === '/') {
+		responseCode = 200;
+		content = fs.readFileSync('./index.html');
+	}
+
+	res.writeHead(responseCode, {
+		'content-type': 'text/html;charset=utf-8',
+	});
+
+	res.write(content);
+	res.end();
+})
+	.listen(port);
+//site end
 
 client.on("error", (e) => console.error(e));
 client.on("warn", (e) => console.warn(e));
