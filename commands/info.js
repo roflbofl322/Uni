@@ -1,7 +1,7 @@
 const Discord = module.require('discord.js');
-var mysql = require('mysql');
 const Canvas = require('canvas');
 const snekfetch = require('snekfetch');
+const { Attachment } = require('discord.js');
 
 const talkedRecently = new Set();
 const applyText = (canvas, text) => {
@@ -15,14 +15,15 @@ const applyText = (canvas, text) => {
 	return ctx.font;
 };
 
-module.exports.run = async (client, message, args) => 
+module.exports.run = async (client, message, args ) => 
 {
     if (talkedRecently.has(message.author.id)) {
         message.reply("Профиль можно посмотреть раз в 1 минуту");
     } else {
       let memberInfo = message.author;
       if(message.mentions.users.first()) memberInfo = message.mentions.users.first();
-      con.query(`SELECT name, level, xp, money, description, hype FROM users WHERE userid = '${memberInfo.id}'`, async function (err, rows) {
+      con.query(`SELECT users.name, level, xp, money, description, hype, background, locks FROM users LEFT JOIN setting using(userid) WHERE userid = ?`, [memberInfo.id], async (err, rows) => {
+        console.log(err);
         if(rows.length < 1) {
           return message.reply("Вы были зарегистрированы в базе данных, напишите команду ещё раз.")  
         };
@@ -32,22 +33,39 @@ module.exports.run = async (client, message, args) =>
         let nick = rows[0].name;
         let lvl = rows[0].level;
         let xp = rows[0].xp;
+        let lock = rows[0].locks;
         let money = rows[0].money;
         let description = rows[0].description;
         let progress = (xp / (1000+100*lvl))*100;
-        console.log(progress);
 
         const canvas = Canvas.createCanvas(1920, 1200);
         const ctx = canvas.getContext('2d');
-      
+
+        if(lock == 1) {
+          if(message.author.id != memberInfo.id) {
+            const attachment = new Attachment('./profile/lock.png');
+            message.channel.send(attachment);
+            return;
+          }
+        }
+        
+       /* ctx.save();
+        let background = rows[0].background;
+        if(background > 0)
+        {
+          const bg1_profile = await Canvas.loadImage(`./profile/bg/${background}.png`);
+          ctx.drawImage(bg1_profile, 0, 0, canvas.width, canvas.height);
+        }
+        ctx.restore(); */
+
         ctx.save();
-        const background = await Canvas.loadImage('./wallpaper.png');
-        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+        const bg_profile = await Canvas.loadImage('./wallpaper.png');
+        ctx.drawImage(bg_profile, 0, 0, canvas.width, canvas.height);
 
         ctx.beginPath();
         ctx.rect(150, 1100, progress*6, 90);
         ctx.closePath();
-        ctx.globalCompositeOperation = 'source-atop'
+        ctx.globalCompositeOperation = "source-atop";
         ctx.fillStyle = '#f17556';
         ctx.fill();
         ctx.restore();
@@ -77,12 +95,35 @@ module.exports.run = async (client, message, args) =>
                 ctx.fillText("Balance", 1100, 210);
               break;
         }
+        
         //значки
-        if(lvl > 0) {
+        /*
+        con.query(`SELECT slot_1, slot_2, slot_3, slot_4, slot_5, slot_6, slot_7, slot_8, slot_9 FROM badge WHERE userid = ?`, [memberInfo.id], async (err, rows) => {
+          let slot_1 = rows[0].slot_1;
+          let slot_2 = rows[0].slot_2;
+          let slot_3 = rows[0].slot_3;
+          let slot_4 = rows[0].slot_4;
+          let slot_5 = rows[0].slot_5;
+          let slot_6 = rows[0].slot_6;
+          let slot_7 = rows[0].slot_7;
+          let slot_8 = rows[0].slot_8;
+          let slot_9 = rows[0].slot_9;
+          console.log(err);
           let badge = await Canvas.loadImage('./profile/badge/lvl/1.png');
-          ctx.drawImage(badge, 200, 600, 160, 160);
-          // ctx.drawImage(badge, 400, 600, 170, 170);
-        }
+          // 1 ряд значков
+          ctx.drawImage(badge, 185, 580, 165, 165);
+          ctx.drawImage(badge, 380, 580, 165, 165);
+          ctx.drawImage(badge, 575, 580, 165, 165);
+
+          ctx.drawImage(badge, 185, 753, 165, 165);
+          ctx.drawImage(badge, 380, 753, 165, 165);
+          ctx.drawImage(badge, 575, 753, 165, 165);
+
+          ctx.drawImage(badge, 185, 925, 165, 165);
+          ctx.drawImage(badge, 380, 925, 165, 165);
+          ctx.drawImage(badge, 575, 925, 165, 165);
+        });
+        */
 
         //ник
         ctx.font = '70px Arial';
