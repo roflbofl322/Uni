@@ -6,12 +6,6 @@ client.discord = Discord;
 config = require('./config.json');
 uniguild = new Discord.WebhookClient(config.web_id, config.web_token);
 
-const http = require('http');
-const url = require('url');
-const fetch = require('node-fetch');
-const FormData = require('form-data');
-const port = 5500;
-
 //mysql
 mysql = require('mysql');
 
@@ -70,7 +64,6 @@ fs.readdir("./events/", (err, files) => {
 client.on('message', async message => {
   if(message.author.bot) return;
   if(message.channel.type === "dm") return message.reply("Извините, но я не отвечаю на личные сообщения `^-^`");
-
   // sql reg
   con.query(`SELECT * FROM users WHERE userid = '${message.author.id}'`, function (err, rows) {
       if(err) throw err;

@@ -22,7 +22,7 @@ module.exports.run = async (client, message, args ) =>
     } else {
       let memberInfo = message.author;
       if(message.mentions.users.first()) memberInfo = message.mentions.users.first();
-      con.query(`SELECT users.name, level, xp, money, description, hype, background, locks FROM users LEFT JOIN setting using(userid) WHERE userid = ?`, [memberInfo.id], async (err, rows) => {
+      con.query(`SELECT users.name, level, xp, money, description, background, locks FROM users LEFT JOIN setting using(userid) WHERE userid = ?`, [memberInfo.id], async (err, rows) => {
         console.log(err);
         if(rows.length < 1) {
           return message.reply("Вы были зарегистрированы в базе данных, напишите команду ещё раз.")  
@@ -49,52 +49,56 @@ module.exports.run = async (client, message, args ) =>
           }
         }
         
-       /* ctx.save();
         let background = rows[0].background;
         if(background > 0)
         {
           const bg1_profile = await Canvas.loadImage(`./profile/bg/${background}.png`);
           ctx.drawImage(bg1_profile, 0, 0, canvas.width, canvas.height);
+          ctx.globalAlpha = 0.9;
         }
-        ctx.restore(); */
 
+
+        // 1 прямоугольник
         ctx.save();
-        const bg_profile = await Canvas.loadImage('./wallpaper.png');
-        ctx.drawImage(bg_profile, 0, 0, canvas.width, canvas.height);
+
+        ctx.beginPath();
+        ctx.rect(150, 20, 600, 1160);
+        ctx.closePath();
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+        ctx.clip();
 
         ctx.beginPath();
         ctx.rect(150, 1100, progress*6, 90);
         ctx.closePath();
-        ctx.globalCompositeOperation = "source-atop";
         ctx.fillStyle = '#f17556';
         ctx.fill();
+
+        ctx.beginPath();
+        ctx.rect(150, 453, 700, 110);
+        ctx.closePath();
+        ctx.fillStyle = '#f17556';
+        ctx.fill();
+
         ctx.restore();
 
-        //hype
-        let hype = rows[0].hype;
-        let balance = await Canvas.loadImage('./profile/balance.png');
-        let bravery = await Canvas.loadImage('./profile/bravery.png');
-        let briliance = await Canvas.loadImage('./profile/briliance.png');
-        switch (hype) {
-            case "1":
-                ctx.drawImage(bravery, 860, 80, 170, 170);
-                ctx.font = '150px sans-serif';
-                ctx.fillStyle = '#9C84EF';
-                ctx.fillText("Bravery", 1100, 200);
-              break;
-            case "2":
-                ctx.drawImage(briliance, 860, 80, 170, 170);
-                ctx.font = '150px sans-serif';
-                ctx.fillStyle = '#F47B67';
-                ctx.fillText("Briliance", 1100, 210);
-              break;
-            case "3":
-                ctx.drawImage(balance, 860, 80, 170, 170);
-                ctx.font = '150px sans-serif';
-                ctx.fillStyle = '#45DDC0';
-                ctx.fillText("Balance", 1100, 210);
-              break;
-        }
+        ctx.beginPath();
+        ctx.rect(780, 20, 930, 300);
+        ctx.closePath();
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.rect(780, 350, 930, 370);
+        ctx.closePath();
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.rect(780, 750, 930, 430);
+        ctx.closePath();
+        ctx.fillStyle = '#fff';
+        ctx.fill();
         
         //значки
         /*
@@ -127,7 +131,7 @@ module.exports.run = async (client, message, args ) =>
 
         //ник
         ctx.font = '70px Arial';
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = '#fff';
         if(nick.length > 13) {
           let nick_l = nick.substr(0, 13) + "...";
           ctx.fillText(`${nick_l}`, canvas.width / 10.0, canvas.height / 2.25);
@@ -137,24 +141,28 @@ module.exports.run = async (client, message, args ) =>
         }
 
         //level
-        ctx.font = '220px sans-serif';
+        ctx.font = '200px sans-serif';
         ctx.fillStyle = '#f17556';
         ctx.fillText(`${lvl}`, canvas.width / 2.1, canvas.height / 2.2);
+        ctx.font = '120px sans-serif';
+        ctx.fillStyle = '#f17556';
+        ctx.fillText("LEVEL", 800, 680);
+
 
         //xp
         ctx.font = '70px sans-serif';
         ctx.fillStyle = '#f17556';
-        ctx.fillText(`${xp}`, canvas.width / 1.475, canvas.height / 2.63);
+        ctx.fillText(`XP:${xp} / ${1000+100*lvl}`, 1200, 455);
 
         //money
         ctx.font = '70px sans-serif';
         ctx.fillStyle = '#f17556';
-        ctx.fillText(`${money}`, canvas.width / 1.35, canvas.height / 2.2);
+        ctx.fillText(`Money: ${money}`, 1200, canvas.height / 2.2);
 
         //BOSS
         ctx.font = '70px sans-serif';
         ctx.fillStyle = '#f17556';
-        ctx.fillText('0', canvas.width / 1.4, canvas.height / 1.87);
+        ctx.fillText("Power: 0", 1200, canvas.height / 1.87);
         
         function wrapText(ctx, text, marginLeft, marginTop, maxWidth, lineHeight)
         {
@@ -194,7 +202,7 @@ module.exports.run = async (client, message, args ) =>
       
         const { body: buffer } = await snekfetch.get(memberInfo.displayAvatarURL);
         const avatar = await Canvas.loadImage(buffer);
-        ctx.drawImage(avatar, 320, 70, 300, 300);
+        ctx.drawImage(avatar, 320, 90, 280, 280);
 
         ctx.restore();
         ctx.beginPath();
