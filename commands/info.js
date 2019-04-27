@@ -22,7 +22,7 @@ module.exports.run = async (client, message, args ) =>
     } else {
       let memberInfo = message.author;
       if(message.mentions.users.first()) memberInfo = message.mentions.users.first();
-      con.query(`SELECT users.name, level, xp, money, description, background, locks FROM users LEFT JOIN setting using(userid) WHERE userid = ?`, [memberInfo.id], async (err, rows) => {
+      con.query(`SELECT users.name, level, xp, money, description, background, locks, kill_players FROM users LEFT JOIN setting using(userid) WHERE userid = ?`, [memberInfo.id], async (err, rows) => {
         console.log(err);
         if(rows.length < 1) {
           return message.reply("Вы были зарегистрированы в базе данных, напишите команду ещё раз.")  
@@ -34,6 +34,7 @@ module.exports.run = async (client, message, args ) =>
         let lvl = rows[0].level;
         let xp = rows[0].xp;
         let lock = rows[0].locks;
+        let kill = rows[0].kill_players;
         let money = rows[0].money;
         let description = rows[0].description;
         let progress = (xp / (1000+100*lvl))*100;
@@ -162,7 +163,7 @@ module.exports.run = async (client, message, args ) =>
         //BOSS
         ctx.font = '70px sans-serif';
         ctx.fillStyle = '#f17556';
-        ctx.fillText("Power: 0", 1200, canvas.height / 1.87);
+        ctx.fillText(`Kill: ${kill}`, 1200, canvas.height / 1.87);
         
         function wrapText(ctx, text, marginLeft, marginTop, maxWidth, lineHeight)
         {

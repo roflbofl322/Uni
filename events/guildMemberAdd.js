@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-var mysql = require('mysql');
 
 module.exports = (client, member) => {
     con.query(`SELECT * FROM users WHERE userid = '${member.id}'`, function (err, rows) {

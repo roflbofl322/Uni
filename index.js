@@ -5,6 +5,7 @@ const client = new Discord.Client();
 client.discord = Discord;
 config = require('./config.json');
 uniguild = new Discord.WebhookClient(config.web_id, config.web_token);
+location = ["Город", "Арена", "точка пиздец"];
 
 //mysql
 mysql = require('mysql');
@@ -74,7 +75,7 @@ client.on('message', async message => {
         con.query(sql, console.log);
         var setting = (`INSERT INTO setting (userid, name) VALUES ('${message.author.id}', '${message.author.username}')`);
         con.query(setting, console.log);
-        var badge = (`INSERT INTO badge (userid) VALUES ('${message.author.id}')`);
+        var badge = (`INSERT INTO badge (userid, name) VALUES ('${message.author.id}'), '${message.author.username}')`);
         con.query(badge, console.log);
         console.log(`Новый аккаунт: ${message.author.tag}`);
         return;
