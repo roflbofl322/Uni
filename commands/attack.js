@@ -28,7 +28,7 @@ module.exports.run = async (client, message, args) =>
                 let defence = result[0].defence;
                 if(defence >= attack)
                 {
-                hp--;
+                    hp--;
                 } else {
                     //if hp after attack == 0 ?
                     hp = hp - (attack - defence);

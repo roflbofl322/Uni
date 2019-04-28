@@ -102,33 +102,30 @@ module.exports.run = async (client, message, args ) =>
         ctx.fill();
         
         //значки
-        /*
         con.query(`SELECT slot_1, slot_2, slot_3, slot_4, slot_5, slot_6, slot_7, slot_8, slot_9 FROM badge WHERE userid = ?`, [memberInfo.id], async (err, rows) => {
-          let slot_1 = rows[0].slot_1;
-          let slot_2 = rows[0].slot_2;
-          let slot_3 = rows[0].slot_3;
-          let slot_4 = rows[0].slot_4;
-          let slot_5 = rows[0].slot_5;
-          let slot_6 = rows[0].slot_6;
-          let slot_7 = rows[0].slot_7;
-          let slot_8 = rows[0].slot_8;
-          let slot_9 = rows[0].slot_9;
           console.log(err);
-          let badge = await Canvas.loadImage('./profile/badge/lvl/1.png');
+          let badge_1 = await Canvas.loadImage(`./profile/badge/lvl/${rows[0].slot_1}.png`);
+          let badge_2 = await Canvas.loadImage(`./profile/badge/lvl/${rows[0].slot_2}.png`);
+          let badge_3 = await Canvas.loadImage(`./profile/badge/lvl/${rows[0].slot_3}.png`);
+          let badge_4 = await Canvas.loadImage(`./profile/badge/lvl/${rows[0].slot_4}.png`);
+          let badge_5 = await Canvas.loadImage(`./profile/badge/lvl/${rows[0].slot_5}.png`);
+          let badge_6 = await Canvas.loadImage(`./profile/badge/lvl/${rows[0].slot_6}.png`);
+          let badge_7 = await Canvas.loadImage(`./profile/badge/lvl/${rows[0].slot_7}.png`);
+          let badge_8 = await Canvas.loadImage(`./profile/badge/lvl/${rows[0].slot_8}.png`);
+          let badge_9 = await Canvas.loadImage(`./profile/badge/lvl/${rows[0].slot_9}.png`);
           // 1 ряд значков
-          ctx.drawImage(badge, 185, 580, 165, 165);
-          ctx.drawImage(badge, 380, 580, 165, 165);
-          ctx.drawImage(badge, 575, 580, 165, 165);
+          ctx.drawImage(badge_1, 185, 580, 165, 165);
+          ctx.drawImage(badge_2, 380, 580, 165, 165);
+          ctx.drawImage(badge_3, 575, 580, 165, 165);
 
-          ctx.drawImage(badge, 185, 753, 165, 165);
-          ctx.drawImage(badge, 380, 753, 165, 165);
-          ctx.drawImage(badge, 575, 753, 165, 165);
+          ctx.drawImage(badge_4, 185, 753, 165, 165);
+          ctx.drawImage(badge_5, 380, 753, 165, 165);
+          ctx.drawImage(badge_6, 575, 753, 165, 165);
 
-          ctx.drawImage(badge, 185, 925, 165, 165);
-          ctx.drawImage(badge, 380, 925, 165, 165);
-          ctx.drawImage(badge, 575, 925, 165, 165);
+          ctx.drawImage(badge_7, 185, 925, 165, 165);
+          ctx.drawImage(badge_8, 380, 925, 165, 165);
+          ctx.drawImage(badge_9, 575, 925, 165, 165);
         });
-        */
 
         //ник
         ctx.font = '70px Arial';
