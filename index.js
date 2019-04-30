@@ -36,6 +36,7 @@ client.on('ready', () => {
   console.log(`Бот работает под ником: ${client.user.tag}!`);
 });
 
+// 123
 client.commands = new Discord.Collection() // создаём коллекцию для команд
 
 fs.readdir('./commands', (err, files) => { // чтение файлов в папке commands
