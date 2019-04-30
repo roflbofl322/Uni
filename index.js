@@ -39,16 +39,16 @@ client.on('ready', () => {
 client.commands = new Discord.Collection() // создаём коллекцию для команд
 
 fs.readdir('./commands', (err, files) => { // чтение файлов в папке commands
-    if (err) console.log(err)
+  if (err) console.log(err)
 
-    let jsfile = files.filter(f => f.split('.').pop() === 'js') // файлы не имеющие расширение .js игнорируются
-    if (jsfile.length <= 0) return console.log('Команды не найдены!') // если нет ни одного файла с расширением .js
+  let jsfile = files.filter(f => f.split('.').pop() === 'js') // файлы не имеющие расширение .js игнорируются
+  if (jsfile.length <= 0) return console.log('Команды не найдены!') // если нет ни одного файла с расширением .js
 
-    console.log(`Loaded ${jsfile.length} commands`)
-    jsfile.forEach((f, i) => { // добавляем каждый файл в коллекцию команд
-        let props = require(`./commands/${f}`)
-        client.commands.set(props.help.name, props)
-    })
+  console.log(`Loaded ${jsfile.length} commands`)
+  jsfile.forEach((f, i) => { // добавляем каждый файл в коллекцию команд
+      let props = require(`./commands/${f}`)
+      client.commands.set(props.help.name, props)
+  })
 })
 
 fs.readdir("./events/", (err, files) => {
@@ -75,7 +75,7 @@ client.on('message', async message => {
         con.query(sql, console.log);
         var setting = (`INSERT INTO setting (userid, name) VALUES ('${message.author.id}', '${message.author.username}')`);
         con.query(setting, console.log);
-        var badge = (`INSERT INTO badge (userid, name) VALUES ('${message.author.id}'), '${message.author.username}')`);
+        var badge = (`INSERT INTO badge (userid, name) VALUES ('${message.author.id}', '${message.author.username}')`);
         con.query(badge, console.log);
         console.log(`Новый аккаунт: ${message.author.tag}`);
         return;

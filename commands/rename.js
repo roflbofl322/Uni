@@ -1,5 +1,4 @@
 const Discord = module.require('discord.js');
-var mysql = require('mysql');
 
 module.exports.run = async (client, message, args) => {
     if(!args.join(" ")){
