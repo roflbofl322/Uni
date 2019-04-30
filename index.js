@@ -41,14 +41,26 @@ client.commands = new Discord.Collection() // создаём коллекцию 
 fs.readdir('./commands', (err, files) => { // чтение файлов в папке commands
   if (err) console.log(err)
 
-  let jsfile = files.filter(f => f.split('.').pop() === 'js') // файлы не имеющие расширение .js игнорируются
-  if (jsfile.length <= 0) return console.log('Команды не найдены!') // если нет ни одного файла с расширением .js
-
-  console.log(`Loaded ${jsfile.length} commands`)
-  jsfile.forEach((f, i) => { // добавляем каждый файл в коллекцию команд
-      let props = require(`./commands/${f}`)
-      client.commands.set(props.help.name, props)
-  })
+  files.forEach((element,iterator) => 
+  {
+      //check if element is a folder ? 
+      //YES: -> open it and assign all js files to 'jsfiles' variable
+      //NO:  -> assign js file to 'jsfiles' variable
+      if(!element.includes("."))
+      {
+          fs.readdir(`./commands/${element}`,(err,sub_files)=>{
+              sub_files.forEach((elem,iterator)=>{
+                  let props = require(`./commands/${element}/${elem}`);
+                  client.commands.set(props.help.name, props);
+              })
+          }) 
+      }
+      else
+      {
+              let props = require(`./commands/${element}`);
+           client.commands.set(props.help.name, props);
+      }   
+  }) 
 })
 
 fs.readdir("./events/", (err, files) => {
