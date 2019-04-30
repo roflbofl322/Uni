@@ -1,7 +1,6 @@
 const Discord = module.require('discord.js');
-const client = new Discord.Client();
 
-module.exports.run = async (client, message, args) => 
+module.exports.run = async (client, message) => 
 {   
     if(config.ownerID.indexOf(message.author.id) == -1) return;
     const embed = {
